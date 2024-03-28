@@ -13,7 +13,7 @@ Commit msg 格式基于 [Conventional Commits v1.0.0](https://www.conventionalco
 
 ## 包管理工具
 
-yarn v4
+pnpm
 
 ## 开发步骤
 
