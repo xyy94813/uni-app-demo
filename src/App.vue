@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import { provide, reactive } from "vue";
-import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
-import AppContext from './components/app-context'
+import { reactive } from "vue";
+import { onLaunch, onShow, onHide, onPageNotFound, onError } from "@dcloudio/uni-app";
+
+import { type APPContext, provideAPPContext } from './components/app-context'
 
 const systemInfo = uni.getSystemInfoSync();
 
-const appContextData = reactive({
+const appContextData = reactive<APPContext>({
   systemInfo,
 });
 
-provide(AppContext, appContextData);
+const pages = getCurrentPages();
+if (pages.length > 0) {
+  console.log(pages);
+}
+
+provideAPPContext(appContextData);
 
 onLaunch(() => {
   console.log("App Launch");
@@ -20,5 +26,15 @@ onShow(() => {
 onHide(() => {
   console.log("App Hide");
 });
+
+onPageNotFound(() => {
+  uni.redirectTo({
+	  url: 'home?id=1'
+  });
+})
+
+onError(() => {
+  // 错误日志上报
+})
 </script>
 <style></style>

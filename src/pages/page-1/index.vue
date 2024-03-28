@@ -1,5 +1,5 @@
 <template>
-  <view class="content">
+  <view class="content" v-if="!pageLoading">
     <image class="logo" src="/static/logo.png" />
     <view class="text-area">
       <text class="title">{{ title }}</text>
@@ -11,15 +11,46 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, } from 'vue'
 import { injectAPPContext } from '../../components/app-context'
-
-// const allPageContext = reactive({})
+import { providePageContext } from '../../components/page-context'
+import sleep from '../../utils/sleep'
+import onInterval from '../../composition/onInterval'
 
 const appContext = injectAPPContext();
 
+const pageLoading = ref(false);
+
+const reloaders: Function[] = [];
+const registryReloads = (reloader) => {
+  reloaders.push(reloader);
+  return () => {
+    reloaders.splice(reloaders.indexOf(reloader), 1);
+  }
+}
+
+registryReloads(() => sleep(1_000))
+
+const refetchPage = async () => {
+  pageLoading.value = true;
+  await Promise.allSettled(reloaders.map(fn => fn()));
+  pageLoading.value = false;
+}
+
+onInterval(refetchPage, 3000)
+
 const title = ref('这是一个轻量级的调音器');
 const subTitle = ref(`当前平台：${appContext.systemInfo.uniPlatform}`);
+
+const pageCtx = {
+  pageId: 'page-1',
+  isLoading: pageLoading.value,
+  // pagePath: 'pages/page-1/index',
+  refetchPage,
+  registryReloads,
+}
+
+providePageContext(pageCtx);
 </script>
 
 <style>
