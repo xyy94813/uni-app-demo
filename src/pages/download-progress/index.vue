@@ -1,82 +1,97 @@
 <template>
-  <view class="content" v-if="!pageLoading">
-    <image class="logo" src="/static/logo.png" />
-    <view class="text-area">
-      <text class="title">{{ title }}</text>
-    </view>
-    <view class="text-area">
-      <text class="title">{{ subTitle }}</text>
-    </view>
+  <view>
+    <up-text v-if="!!selectedResource" :text="selectedResource"></up-text>
+    <up-text v-else type="error" text="请选选中资源"></up-text>
+  </view>
+  <view>
+    当前进度：{{ progress }}
+    <u-line-progress :percentage="(progress * 100).toFixed(2)" activeColor="green"></u-line-progress>
+  </view>
+  <view>
+    <up-button type="primary" @click="showPicker = true">切换资源</up-button>
+    <up-picker :show="showPicker" :columns="resourcePickerCols" @confirm="handleResourceChange"
+      @cancel="showPicker = false" closeOnClickOverlay="true" @close="showPicker = false" />
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref, } from 'vue'
-import { injectAPPContext } from '../../components/app-context'
-import { providePageContext } from '../../components/page-context'
+import { ref, reactive } from 'vue';
 import sleep from '../../utils/sleep'
-import onInterval from '../../composition/onInterval'
 
-const appContext = injectAPPContext();
+const resourceList = [
+  'https://pic4.zhimg.com/80/v2-7aedaf1862b3c043fdce5122df30963f.webp',
+  'https://pic1.zhimg.com/80/v2-cceadf7b009f6f267e5fa6bf115f0a78.webp',
+  'https://pic4.zhimg.com/80/v2-91c5dd1ca488a5d76c6558698f91d5eb.webp',
+]
 
-const pageLoading = ref(false);
+const showPicker = ref(false);
+const selectedResource = ref<string | null>(null);
+const resourcePickerCols = reactive([resourceList.map((item, index) => `资源 ${index}`)])
 
-const reloaders: Function[] = [];
-const registryReloads = (reloader) => {
-  reloaders.push(reloader);
-  return () => {
-    reloaders.splice(reloaders.indexOf(reloader), 1);
+const progress = ref(0);
+const handleResourceChange = async (selected) => {
+  // 关闭 picker
+  showPicker.value = false;
+  // 进度重置
+  progress.value = 0;
+
+  selectedResource.value = resourceList[selected.indexs[0]];
+
+  await sleep(2_000) // delay 便于查看效果
+  let done = false
+  const updateProgress = async () => {
+    if (done) { return }
+    await sleep(50); // 只能模拟 
+    const newProgress = progress.value + 0.1;
+    progress.value = Math.min(0.95, newProgress)
+    await updateProgress()
   }
+
+  // 获取请求资源
+  uni.request({
+    url: selectedResource.value + '?' + performance.now(),
+    success(res) {
+      done = true;
+      progress.value = 1;
+    },
+    progressUpdate: (res) => {
+      console.log('onProgressUpdate', res)
+      progress.value = res.progress;
+    }
+  })
 }
+// fetch 仅能在 web 环境，以下行为微信浏览器下会失效
+// const handleResourceChange = async (selected) => {
+//   // 关闭 picker
+//   showPicker.value = false;
+//   // 进度重置
+//   progress.value = 0;
 
-registryReloads(() => sleep(1_000))
+//   await sleep(200) // delay 便于查看效果
+//   // 获取请求资源
+//   const newResourceURL = resourceList[selected.indexs[0]];
+//   const response = await fetch(newResourceURL + '?' + performance.now());
+//   // 资源总大小
+//   const contentLen = parseFloat(response.headers.get('Content-Length') ?? '0')
+//   // 基于 reader 获取当前的字节大小
+//   const reader = await response.body!.getReader();
 
-const refetchPage = async () => {
-  pageLoading.value = true;
-  await Promise.allSettled(reloaders.map(fn => fn()));
-  pageLoading.value = false;
-}
+//   let receivedLength = 0;
+//   const updateProgress = async () => {
+//     const result = await reader.read();
+//     if (result.done) {
+//       progress.value = 1;
+//       return
+//     }
+//     // receivedLength += result.value.length;
+//     receivedLength += result.value.byteLength;
+//     progress.value = receivedLength / contentLen;
+//     await sleep(50)
+//     await updateProgress()
+//   }
 
-onInterval(refetchPage, 3000)
-
-const title = ref('这是一个轻量级的调音器');
-const subTitle = ref(`当前平台：${appContext.systemInfo.uniPlatform}`);
-
-const pageCtx: any = {
-  pageId: 'page-1',
-  isLoading: pageLoading.value,
-  // pagePath: 'pages/page-1/index',
-  refetchPage,
-  registryReloads,
-}
-
-providePageContext(pageCtx);
+//   await updateProgress();
+// }
 </script>
 
-<style>
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo {
-  height: 200rpx;
-  width: 200rpx;
-  margin-top: 200rpx;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50rpx;
-}
-
-.text-area {
-  display: flex;
-  justify-content: center;
-}
-
-.title {
-  font-size: 36rpx;
-  color: #8f8f94;
-}
-</style>
+<style></style>
