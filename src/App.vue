@@ -29,7 +29,7 @@ onHide(() => {
 
 onPageNotFound(() => {
   uni.redirectTo({
-    url: 'home?id=1'
+    url: '/pages/index/index?fromPage=404'
   });
 })
 

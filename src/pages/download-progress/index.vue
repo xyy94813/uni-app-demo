@@ -42,7 +42,7 @@ onInterval(refetchPage, 3000)
 const title = ref('这是一个轻量级的调音器');
 const subTitle = ref(`当前平台：${appContext.systemInfo.uniPlatform}`);
 
-const pageCtx = {
+const pageCtx: any = {
   pageId: 'page-1',
   isLoading: pageLoading.value,
   // pagePath: 'pages/page-1/index',

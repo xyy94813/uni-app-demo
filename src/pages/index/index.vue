@@ -7,18 +7,38 @@
     <view class="text-area">
       <up-text type="info" :text="subTitle" class="title" />
     </view>
+    <u-list @click="handlePageListClick">
+      <u-list-item v-for="item in pageConfList" :key="item.path">
+        <navigator :url="item.path">
+          <u-cell :title="item.label">
+          </u-cell>
+        </navigator>
+      </u-list-item>
+    </u-list>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { injectAPPContext } from '../../components/app-context'
+import pagesConf from '../../pages.json'
 
 const appContext = injectAPPContext();
-console.log(appContext.systemInfo.app)
 
-const title = ref('这是一个轻量级的调音器');
-const subTitle = ref(`当前平台：${appContext.systemInfo.uniPlatform}`);
+const title = '基于 uni-app 的 demo';
+const subTitle = `当前平台：${appContext.systemInfo.uniPlatform}`
+
+// console.log(import.meta.url)
+const pageConfList = pagesConf
+  .pages
+  .slice(1)
+  .map((conf) => ({
+    path: '/' + conf?.path,
+    label: conf?.style?.navigationBarTitleText ?? ''
+  }))
+
+const handlePageListClick = (event: Event) => {
+  console.log(event.target);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -32,7 +52,7 @@ const subTitle = ref(`当前平台：${appContext.systemInfo.uniPlatform}`);
 .logo {
   height: 200rpx;
   width: 200rpx;
-  margin-top: 200rpx;
+  margin-top: 50rpx;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50rpx;
