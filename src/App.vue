@@ -29,7 +29,7 @@ onHide(() => {
 
 onPageNotFound(() => {
   uni.redirectTo({
-	  url: 'home?id=1'
+    url: 'home?id=1'
   });
 })
 
@@ -37,4 +37,7 @@ onError(() => {
   // 错误日志上报
 })
 </script>
-<style></style>
+
+<style lang="scss">
+/** */
+</style>

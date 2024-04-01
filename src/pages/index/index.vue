@@ -5,24 +5,23 @@
       <text class="title">{{ title }}</text>
     </view>
     <view class="text-area">
-      <text class="title">{{ subTitle }}</text>
+      <up-text type="info" :text="subTitle" class="title" />
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { injectAPPContext } from '../../components/app-context'
 
-// const allPageContext = reactive({})
-
 const appContext = injectAPPContext();
+console.log(appContext.systemInfo.app)
 
 const title = ref('这是一个轻量级的调音器');
 const subTitle = ref(`当前平台：${appContext.systemInfo.uniPlatform}`);
 </script>
 
-<style>
+<style lang="scss" scoped>
 .content {
   display: flex;
   flex-direction: column;
