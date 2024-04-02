@@ -20,6 +20,12 @@
       "style": {
         "navigationBarTitleText": "下载进度条"
       }
+    },
+    {
+      "path": "pages/map-info/index",
+      "style": {
+        "navigationBarTitleText": "地图功能验证"
+      }
     }
   ],
   "globalStyle": {
