@@ -7,7 +7,7 @@
     <view class="text-area">
       <up-text type="info" :text="subTitle" class="title" />
     </view>
-    <u-list @click="handlePageListClick">
+    <u-list>
       <u-list-item v-for="item in pageConfList" :key="item.path">
         <navigator :url="item.path">
           <u-cell :title="item.label">
@@ -35,10 +35,6 @@ const pageConfList = pagesConf
     path: '/' + conf?.path,
     label: conf?.style?.navigationBarTitleText ?? ''
   }))
-
-const handlePageListClick = (event: Event) => {
-  console.log(event.target);
-}
 </script>
 
 <style lang="scss" scoped>
