@@ -3,34 +3,29 @@
 </template>
 
 <script setup lang="ts">
-import MarkdownIt from 'markdown-it';
-import hljs from 'highlight.js';
 import { computed } from 'vue';
+import { Marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from 'highlight.js';
 
 const props = defineProps(['content'])
 
-const markdown = new MarkdownIt({
-    html: true,
-    highlight(str, lang) {
-        let content: string;
-        if (lang && hljs.getLanguage(lang)) {
-            try {
-                content = hljs.highlight(lang, str, true).value
-            } catch (__) {
-                content = markdown.utils.escapeHtml(str); // 防止 XSS 攻击
-            }
-        } else {
-            content = markdown.utils.escapeHtml(str); // 防止 XSS 攻击
-        }
-        return `<pre class="hljs"><code>${content}</code></pre>`;
-    },
-});
+const markdown = new Marked(
+    markedHighlight({
+        langPrefix: 'hljs language-',
+        highlight(code, lang) {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            return hljs.highlight(code, { language }).value;
+
+        },
+    })
+);
 
 const renderedMarkdown = computed(() => {
     if (!props.content) {
         return ''
     }
-    return markdown.render(props.content)
+    return markdown.parse(props.content)
 });
 </script>
 

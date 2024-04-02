@@ -1,3 +1,2 @@
-import '@dcloudio/types'
-import '@types/markdown-it'
+import "@dcloudio/types";
 import "./@types/uview-plus";
