@@ -16,6 +16,13 @@
       }
     },
     {
+      "path": "pages/readme/index",
+      "style": {
+        "navigationBarTitleText": "简介（TODO 小程序构建失败）"
+      },
+      "needLogin": false
+    },
+    {
       "path": "pages/download-progress/index",
       "style": {
         "navigationBarTitleText": "下载进度条"
