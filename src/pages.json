@@ -18,7 +18,7 @@
     {
       "path": "pages/readme/index",
       "style": {
-        "navigationBarTitleText": "简介（TODO 小程序构建失败）"
+        "navigationBarTitleText": "简介（TODO 小程序富文本样式控制）"
       },
       "needLogin": false
     },

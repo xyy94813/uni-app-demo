@@ -1,5 +1,6 @@
 <template>
-    <view class="markdown-body" v-if="renderedMarkdown" v-html="renderedMarkdown"></view>
+    <rich-text v-if="renderedMarkdown" :nodes="renderedMarkdown">
+    </rich-text>
 </template>
 
 <script setup lang="ts">
@@ -16,7 +17,6 @@ const markdown = new Marked(
         highlight(code, lang) {
             const language = hljs.getLanguage(lang) ? lang : 'plaintext';
             return hljs.highlight(code, { language }).value;
-
         },
     })
 );
@@ -25,18 +25,18 @@ const renderedMarkdown = computed(() => {
     if (!props.content) {
         return ''
     }
-    return markdown.parse(props.content)
+    return `<div class="markdown-body">${markdown.parse(props.content)}</div>` // to html str
 });
 </script>
 
 <style lang="scss">
-@import url('https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css');
+@import url('./github-markdown-light.scss');
 @import url('highlight.js/scss/github.scss');
 
 .markdown-body {
     padding: 24px;
 
-    .hljs {
+    code.hljs {
         padding: 24px !important; // trick way
     }
 }
