@@ -33,7 +33,7 @@ const pageConfList = pagesConf
   .slice(1)
   .map((conf) => ({
     path: '/' + conf?.path,
-    label: conf?.style?.navigationBarTitleText ?? ''
+    label: conf?.style?.navigationBarTitleText || ''
   }))
 </script>
 

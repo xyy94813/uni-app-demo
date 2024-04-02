@@ -69,7 +69,7 @@ requestAndUpdateProgressRepo.set('web', async (reqURL: string) => {
   // fetch 仅能在 web 环境，以下行为微信浏览器下会失效
   const response = await fetch(reqURL);
   // 资源总大小
-  const contentLen = parseFloat(response.headers.get('Content-Length') ?? '0')
+  const contentLen = parseFloat(response.headers.get('Content-Length') || '0')
   // 基于 reader 获取当前的字节大小
   const reader = await response.body!.getReader();
 
