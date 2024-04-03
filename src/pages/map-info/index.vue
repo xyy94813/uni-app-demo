@@ -135,7 +135,7 @@ const polygons = [
     ring3, ring4, ring5,
     // multiple polygon ??
 ].map((polygonCoords, index) => {
-    const mapToPoint = (coords) => {
+    const mapToPoint = (coords: any): any => {
         if (Array.isArray(coords) && Array.isArray(coords[0])) {
             return coords.map(mapToPoint)
         }
@@ -149,12 +149,6 @@ const polygons = [
     })
 });
 
-const mapToPoint = (coords: any) => {
-    if (Array.isArray(coords) && Array.isArray(coords[0])) {
-        return coords.map(mapToPoint)
-    }
-    return coordsToMapPoint(coords as number[])
-}
 //
 </script>
 
