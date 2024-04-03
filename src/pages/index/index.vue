@@ -26,12 +26,13 @@ const appContext = injectAPPContext();
 
 const title = '基于 uni-app 的 demo';
 const subTitle = `当前平台：${appContext.systemInfo.uniPlatform}`
+
 // console.log(import.meta.url)
 const pageConfList = pagesConf
   .pages
   .slice(1)
   .map((conf) => ({
-    path: import.meta.env.BASE_URL + conf?.path,
+    path: '/' + conf?.path,
     label: conf?.style?.navigationBarTitleText || ''
   }))
 </script>
