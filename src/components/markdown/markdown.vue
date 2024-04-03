@@ -35,7 +35,7 @@ const renderedMarkdown = computed(() => {
 
 <style lang="scss">
 @import url('./github-markdown-light.scss');
-@import url('highlight.js/scss/github.scss');
+@import url('./github-hightlight.scss'); // 样式来自于 hightlight.js v12 版本
 
 .markdown-body {
     padding: 24px;
