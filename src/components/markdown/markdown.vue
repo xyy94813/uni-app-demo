@@ -38,10 +38,10 @@ const renderedMarkdown = computed(() => {
 @import url('./github-hightlight.scss'); // 样式来自于 hightlight.js v12 版本
 
 .markdown-body {
-    padding: 24px;
+    padding: 12px 24px;
 
     code.hljs {
-        padding: 24px !important; // trick way
+        padding: 4px !important; // trick way
     }
 }
 </style>
