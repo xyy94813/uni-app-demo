@@ -1,21 +1,10 @@
 <script setup lang="ts">
-import { reactive } from "vue";
 import { onLaunch, onShow, onHide, onPageNotFound, onError } from "@dcloudio/uni-app";
-
-import { type APPContext, provideAPPContext } from './components/app-context'
-
-const systemInfo = uni.getSystemInfoSync();
-
-const appContextData = reactive<APPContext>({
-  systemInfo,
-});
 
 const pages = getCurrentPages();
 if (pages.length > 0) {
   console.log(pages);
 }
-
-provideAPPContext(appContextData);
 
 onLaunch(() => {
   console.log("App Launch");

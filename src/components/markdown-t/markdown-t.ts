@@ -1,7 +1,7 @@
 import { defineComponent, h } from "vue";
 import UText from "uview-plus/components/u--text/u--text.vue";
 import { safeExecuteDecorator } from "../../utils/safeExecute";
-import { injectAPPContext } from "../app-context";
+import useAPPStore from "../../stores/app-stores";
 import mdTextToVNode from "./mdTextToVNode";
 
 const safeMdTextToVNode = safeExecuteDecorator(
@@ -13,7 +13,7 @@ export default defineComponent({
   __name: "markdown-t",
   props: ["content"],
   setup(props) {
-    const appCtx = injectAPPContext();
+    const appCtx = useAPPStore();
     const uniPlatform = appCtx.systemInfo.uniPlatform;
     return () => safeMdTextToVNode(props.content, uniPlatform);
   },

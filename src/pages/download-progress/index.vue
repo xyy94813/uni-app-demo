@@ -11,13 +11,13 @@
     <up-button type="primary" @click="showPicker = true">切换资源</up-button>
   </view>
   <up-picker :show="showPicker" :columns="resourcePickerCols" @confirm="handleResourceChange"
-    @cancel="showPicker = false" closeOnClickOverlay="true" @close="showPicker = false" />
+    @cancel="showPicker = false" :closeOnClickOverlay="true" @close="showPicker = false" />
   <u-toast ref="uToastRef"></u-toast>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { injectAPPContext } from '../../components/app-context'
+import useAPPStore from "../../stores/app-stores";
 import sleep from '../../utils/sleep'
 
 const resourceList = [
@@ -90,8 +90,8 @@ requestAndUpdateProgressRepo.set('web', async (reqURL: string) => {
   await updateProgress();
 })
 
-const appContext = injectAPPContext();
-const uniPlatform = appContext.systemInfo.uniPlatform
+const appStore = useAPPStore();
+const uniPlatform = appStore.systemInfo.uniPlatform
 
 let requestAndUpdateProgress: RequestAndUpdateProgress;
 if (requestAndUpdateProgressRepo.has(uniPlatform)) {
