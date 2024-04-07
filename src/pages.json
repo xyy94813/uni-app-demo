@@ -33,12 +33,6 @@
       "style": {
         "navigationBarTitleText": "地图功能验证"
       }
-    },
-    {
-      "path": "pages/markdown-ast/index",
-      "style": {
-        "navigationBarTitleText": "基于 ast 转换 markdown"
-      }
     }
   ],
   "globalStyle": {
