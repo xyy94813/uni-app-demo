@@ -2,7 +2,7 @@
   <view class="content">
     <image class="logo" src="/static/logo.png" />
     <view class="text-area">
-      <text class="title">{{ title }}</text>
+      <text class="title">基于 uni-app 的 demo</text>
     </view>
     <view class="text-area">
       <up-text type="info" :text="subTitle" class="title" />
@@ -20,7 +20,7 @@
       </u-list-item>
     </u-list>
   </view>
-  <theme-action-sheet :show="themePickerShowed" @select="onThemePickerConfirm" />
+  <theme-action-sheet :show="themePickerShowed" @select="onThemePickerConfirm" @close="hideThemePicker" />
   <lang-picker :show="langPickerShowed" @confirm="onLangPickerConfirm" @cancel="hideLangPicker"
     @close="hideLangPicker" />
 </template>
@@ -35,7 +35,6 @@ import pagesConf from '../../pages.json'
 
 const appStore = useAPPStore();
 
-const title = '基于 uni-app 的 demo';
 const subTitle = computed(() =>
   `当前平台：${appStore.systemInfo.uniPlatform}
 当前主题：${appStore.theme}

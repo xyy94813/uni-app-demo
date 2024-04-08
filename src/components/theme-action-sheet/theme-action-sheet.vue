@@ -1,10 +1,13 @@
 <template>
-    <u-action-sheet :actions="actions" :title="title"></u-action-sheet>
+    <u-action-sheet title="切换主题" :actions="actions" :show="$props.show" @select="$emit('select', $event)"
+        @close="$emit('close', $event)"></u-action-sheet>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-const title = ref('切换主题')
+// vue 的透传行为在小程序中不生效
+defineProps(['show'])
+defineEmits(['select', 'close'])
+
 const actions = [
     {
         name: '浅色主题',
