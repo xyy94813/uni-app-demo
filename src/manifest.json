@@ -10,6 +10,7 @@
     "usingComponents": true,
     "nvueStyleCompiler": "uni-app",
     "compilerVersion": 3,
+    "darkmode": true,
     "splashscreen": {
       "alwaysShowBeforeRender": true,
       "waiting": true,
@@ -51,6 +52,7 @@
   /* 小程序特有相关 */
   "mp-weixin": {
     "appid": "wx021469bc24d7dafa",
+    "darkmode": true,
     "setting": {
       "urlCheck": false
     },
@@ -69,6 +71,7 @@
     "enable": false
   },
   "h5": {
+    "darkmode": true,
     "router": {
       "mode": "history"
     },
