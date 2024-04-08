@@ -13,7 +13,7 @@ defineEmits([
 ])
 
 const columns = [
-    ['en', 'zh-cn'],
+    ['en', 'zh-CN'],
 ]
 </script>
 
