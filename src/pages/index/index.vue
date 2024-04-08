@@ -20,15 +20,14 @@
       </u-list-item>
     </u-list>
   </view>
-  <theme-picker :show="showThemePicker" @confirm="onThemePickerConfirm" @cancel="showThemePicker = false"
-    @close="showThemePicker = false" />
+  <theme-action-sheet :show="showThemePicker" @select="onThemePickerConfirm" />
   <lang-picker :show="showLangPicker" @confirm="onLangPickerConfirm" @cancel="showLangPicker = false"
     @close="showLangPicker = false" />
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import ThemePicker from "../../components/theme-picker/theme-picker.vue";
+import ThemeActionSheet from "../../components/theme-action-sheet/theme-action-sheet.vue";
 import LangPicker from "../../components/lang-picker/lang-picker.vue";
 import useAPPStore from "../../stores/app-stores";
 import pagesConf from '../../pages.json'
@@ -53,7 +52,7 @@ const pageConfList = pagesConf
 
 const showThemePicker = ref(false);
 const onThemePickerConfirm = (selected: any) => {
-  appStore.changeTheme(selected.value[0])
+  appStore.changeTheme(selected.key)
   showThemePicker.value = false;
 }
 const showLangPicker = ref(false);
