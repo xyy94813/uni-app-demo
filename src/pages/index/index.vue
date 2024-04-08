@@ -8,8 +8,8 @@
       <up-text type="info" :text="subTitle" class="title" />
     </view>
     <view style="display: flex; gap: 8px;">
-      <up-button type="info" text="切换主题" @click="showThemePicker = true"></up-button>
-      <up-button type="info" text="切换语言" @click="showLangPicker = true"></up-button>
+      <up-button type="info" text="切换主题" @click="showThemePicker"></up-button>
+      <up-button type="info" text="切换语言" @click="showLangPicker"></up-button>
     </view>
     <u-list>
       <u-list-item v-for="item in pageConfList" :key="item.path">
@@ -20,13 +20,14 @@
       </u-list-item>
     </u-list>
   </view>
-  <theme-action-sheet :show="showThemePicker" @select="onThemePickerConfirm" />
-  <lang-picker :show="showLangPicker" @confirm="onLangPickerConfirm" @cancel="showLangPicker = false"
-    @close="showLangPicker = false" />
+  <theme-action-sheet :show="themePickerShowed" @select="onThemePickerConfirm" />
+  <lang-picker :show="langPickerShowed" @confirm="onLangPickerConfirm" @cancel="hideLangPicker"
+    @close="hideLangPicker" />
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
+import useShowControl from "../../composition/useShowControl";
 import ThemeActionSheet from "../../components/theme-action-sheet/theme-action-sheet.vue";
 import LangPicker from "../../components/lang-picker/lang-picker.vue";
 import useAPPStore from "../../stores/app-stores";
@@ -49,16 +50,26 @@ const pageConfList = pagesConf
     label: conf?.style?.navigationBarTitleText || ''
   }))
 
+const {
+  showed: themePickerShowed,
+  show: showThemePicker,
+  hide: hideThemePicker,
+} = useShowControl(false)
 
-const showThemePicker = ref(false);
+const {
+  showed: langPickerShowed,
+  show: showLangPicker,
+  hide: hideLangPicker,
+} = useShowControl(false)
+
 const onThemePickerConfirm = (selected: any) => {
+  hideThemePicker();
   appStore.changeTheme(selected.key)
-  showThemePicker.value = false;
 }
-const showLangPicker = ref(false);
+
 const onLangPickerConfirm = (selected: any) => {
   appStore.changeLanguage(selected.value[0])
-  showLangPicker.value = false;
+  hideLangPicker()
 }
 </script>
 
