@@ -33,6 +33,12 @@
       "style": {
         "navigationBarTitleText": "地图功能验证"
       }
+    },
+    {
+      "path": "pages/mix-theme-mode/index",
+      "style": {
+        "navigationBarTitleText": "混合主题模式"
+      }
     }
   ],
   "globalStyle": {
